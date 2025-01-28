@@ -17,7 +17,6 @@ from pyrogram.types import Message
 from pyrogram import Client, errors
 from pyrogram.errors.exceptions.bad_request_400 import PeerIdInvalid, ChannelInvalid
 from pyrogram.types import Chat, User
-from ptbcontrib.postgres_persistence import PostgresPersistence
 
 
 StartTime = time.time()
@@ -30,7 +29,8 @@ def get_user_list(__init__, key):
         return json.load(json_file)[key]
     
 async def main():
-    aiohttpsession = await create_aiohttp_session()
+    global aiohttpsession
+    aiohttpsession = await initialize_aiohttp_session()
     
 
 # enable logging
@@ -331,5 +331,7 @@ tg.MessageHandler = CustomMessageHandler
 
 
 if __name__ == "__main__":
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(main())
+    try:
+        loop.run_until_complete(main())
+    except Exception as e:
+        LOGGER.error(f"Failed to run main: {e}")
