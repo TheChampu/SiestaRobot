@@ -3,7 +3,6 @@ import logging
 import os
 import sys
 import json
-import asyncio
 import time
 import spamwatch
 import telegram.ext as tg
@@ -20,7 +19,11 @@ from pyrogram.errors.exceptions.bad_request_400 import PeerIdInvalid, ChannelInv
 from pyrogram.types import Chat, User
 from ptbcontrib.postgres_persistence import PostgresPersistence
 
+
 StartTime = time.time()
+
+async def create_aiohttp_session():
+    return ClientSession()
 
 def get_user_list(__init__, key):
     with open("{}/SiestaRobot/{}".format(os.getcwd(), __init__), "r") as json_file:
@@ -311,3 +314,8 @@ from SiestaRobot.modules.helper_funcs.handlers import (
 tg.RegexHandler = CustomRegexHandler
 tg.CommandHandler = CustomCommandHandler
 tg.MessageHandler = CustomMessageHandler
+
+if __name__ == "__main__":
+    loop = asyncio.get_event_loop()
+    aiohttpsession = loop.run_until_complete(create_aiohttp_session())
+   
