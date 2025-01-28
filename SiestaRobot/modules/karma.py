@@ -19,7 +19,7 @@ from SiestaRobot.ex_plugins.dbfunctions import (
 from SiestaRobot.utils.filter_groups import karma_negative_group, karma_positive_group
 from SiestaRobot import arq
 
-regex_upvote = r"^((?i)\+|\+\+|\+1|thx|thanx|thanks|pro|cool|good|👍)$"
+regex_upvote = r"(?i)\b(upvote|like)\b"  # Ensure flags are at the start
 regex_downvote = r"^(\-|\-\-|\-1|👎|noob|weak)$"
 
 
