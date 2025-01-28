@@ -8,7 +8,6 @@ from pyrate_limiter import (
     BucketFullException,
     Duration,
     Limiter,
-    RequestRate,
 )
 
 if ALLOW_EXCL:
@@ -28,16 +27,11 @@ class AntiSpam:
         )
         # Values are HIGHLY experimental; pay attention to adjustments in future updates.
         Duration.CUSTOM = 15  # Custom duration, 15 seconds
-        self.sec_limit = RequestRate(6, Duration.CUSTOM)  # 6 requests per 15 seconds
-        self.min_limit = RequestRate(20, Duration.MINUTE)  # 20 requests per minute
-        self.hour_limit = RequestRate(100, Duration.HOUR)  # 100 requests per hour
-        self.daily_limit = RequestRate(1000, Duration.DAY)  # 1000 requests per day
-
         self.limiter = Limiter(
-            self.sec_limit,
-            self.min_limit,
-            self.hour_limit,
-            self.daily_limit
+            (6, Duration.CUSTOM),  # 6 requests per 15 seconds
+            (20, Duration.MINUTE),  # 20 requests per minute
+            (100, Duration.HOUR),  # 100 requests per hour
+            (1000, Duration.DAY)  # 1000 requests per day
         )
 
     def check_user(self, user):
