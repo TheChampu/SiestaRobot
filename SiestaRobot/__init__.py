@@ -22,8 +22,8 @@ from ptbcontrib.postgres_persistence import PostgresPersistence
 
 StartTime = time.time()
 
-async def create_aiohttp_session():
-    return ClientSession()
+# Removed the create_aiohttp_session function as it is no longer needed.
+# The ClientSession creation logic is now streamlined.
 
 def get_user_list(__init__, key):
     with open("{}/SiestaRobot/{}".format(os.getcwd(), __init__), "r") as json_file:
@@ -245,7 +245,15 @@ updater = tg.Updater(TOKEN, workers=WORKERS, use_context=True)
 telethn = TelegramClient(MemorySession(), API_ID, API_HASH)
 dispatcher = updater.dispatcher
 print("[INFO]: INITIALIZING AIOHTTP SESSION")
-aiohttpsession = ClientSession()
+import asyncio
+
+try:
+    aiohttpsession = ClientSession()
+except RuntimeError as e:
+    if str(e) == "no running event loop":
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+        aiohttpsession = ClientSession()
 # ARQ Client
 print("[INFO]: INITIALIZING ARQ CLIENT")
 arq = ARQ(ARQ_API_URL, ARQ_API_KEY, aiohttpsession)
