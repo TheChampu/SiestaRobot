@@ -27,7 +27,7 @@ class AntiSpam:
             + (TIGERS or [])
         )
         # Define rate limits using RequestRate objects
-        self.sec_limit = RequestRate(6, Duration.CUSTOM)  # 6 requests per 15 seconds
+        self.sec_limit = RequestRate(6, 15)  # 6 requests per 15 seconds
         self.min_limit = RequestRate(20, Duration.MINUTE)  # 20 requests per minute
         self.hour_limit = RequestRate(100, Duration.HOUR)  # 100 requests per hour
         self.daily_limit = RequestRate(1000, Duration.DAY)  # 1000 requests per day
