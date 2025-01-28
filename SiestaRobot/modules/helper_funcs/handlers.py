@@ -8,7 +8,7 @@ from pyrate_limiter import (
     BucketFullException,
     Duration,
     Limiter,
-    Rate
+    RequestRate
 )
 
 if ALLOW_EXCL:
@@ -26,11 +26,11 @@ class AntiSpam:
             + (DEMONS or [])
             + (TIGERS or [])
         )
-        # Define rate limits using Rate objects
-        self.sec_limit = Rate(6, Duration.CUSTOM)  # 6 requests per 15 seconds
-        self.min_limit = Rate(20, Duration.MINUTE)  # 20 requests per minute
-        self.hour_limit = Rate(100, Duration.HOUR)  # 100 requests per hour
-        self.daily_limit = Rate(1000, Duration.DAY)  # 1000 requests per day
+        # Define rate limits using RequestRate objects
+        self.sec_limit = RequestRate(6, Duration.CUSTOM)  # 6 requests per 15 seconds
+        self.min_limit = RequestRate(20, Duration.MINUTE)  # 20 requests per minute
+        self.hour_limit = RequestRate(100, Duration.HOUR)  # 100 requests per hour
+        self.daily_limit = RequestRate(1000, Duration.DAY)  # 1000 requests per day
 
         # Initialize Limiter with these rates
         self.limiter = Limiter(self.sec_limit, self.min_limit, self.hour_limit, self.daily_limit)
