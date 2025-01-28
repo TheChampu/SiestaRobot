@@ -28,6 +28,10 @@ async def create_aiohttp_session():
 def get_user_list(__init__, key):
     with open("{}/SiestaRobot/{}".format(os.getcwd(), __init__), "r") as json_file:
         return json.load(json_file)[key]
+    
+async def main():
+    aiohttpsession = await create_aiohttp_session()
+    
 
 # enable logging
 FORMAT = "[SiestaRobot] %(message)s"
@@ -315,7 +319,8 @@ tg.RegexHandler = CustomRegexHandler
 tg.CommandHandler = CustomCommandHandler
 tg.MessageHandler = CustomMessageHandler
 
+
 if __name__ == "__main__":
     loop = asyncio.get_event_loop()
-    aiohttpsession = loop.run_until_complete(create_aiohttp_session())
+    loop.run_until_complete(main())
    
