@@ -8,7 +8,7 @@ from pyrate_limiter import (
     BucketFullException,
     Duration,
     Limiter,
-    MemoryListBucket,
+    MemoryBucket,
 )
 
 if ALLOW_EXCL:
@@ -37,7 +37,7 @@ class AntiSpam:
             self.min_limit,
             self.hour_limit,
             self.daily_limit,
-            bucket_class=MemoryListBucket,
+            bucket_class=MemoryBucket,
         )
 
     def check_user(self, user):
