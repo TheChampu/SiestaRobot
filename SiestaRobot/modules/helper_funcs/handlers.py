@@ -1,4 +1,3 @@
-from urllib.robotparser import RequestRate
 import SiestaRobot.modules.sql.blacklistusers_sql as sql
 from SiestaRobot import ALLOW_EXCL
 from SiestaRobot import DEV_USERS, DRAGONS, DEMONS, TIGERS, WOLVES
@@ -9,8 +8,8 @@ from pyrate_limiter import (
     BucketFullException,
     Duration,
     Limiter,
+    RequestRate,
 )
-from pyrate_limiter.buckets import InMemoryBucket
 
 if ALLOW_EXCL:
     CMD_STARTERS = ("/", "!", "~")
@@ -38,10 +37,8 @@ class AntiSpam:
             self.sec_limit,
             self.min_limit,
             self.hour_limit,
-            self.daily_limit,
-            bucket_class=InMemoryBucket,
+            self.daily_limit
         )
-
 
     def check_user(self, user):
         """
