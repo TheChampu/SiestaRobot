@@ -245,15 +245,18 @@ updater = tg.Updater(TOKEN, workers=WORKERS, use_context=True)
 telethn = TelegramClient(MemorySession(), API_ID, API_HASH)
 dispatcher = updater.dispatcher
 print("[INFO]: INITIALIZING AIOHTTP SESSION")
-import asyncio
+
+async def initialize_aiohttp_session():
+    return ClientSession()
 
 try:
-    aiohttpsession = ClientSession()
-except RuntimeError as e:
-    if str(e) == "no running event loop":
-        loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(loop)
-        aiohttpsession = ClientSession()
+    loop = asyncio.get_event_loop()
+except RuntimeError:
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+
+aiohttpsession = loop.run_until_complete(initialize_aiohttp_session())
+
 # ARQ Client
 print("[INFO]: INITIALIZING ARQ CLIENT")
 arq = ARQ(ARQ_API_URL, ARQ_API_KEY, aiohttpsession)
@@ -274,7 +277,6 @@ pbot = Client(
 )
 apps = []
 apps.append(pbot)
-loop = asyncio.get_event_loop()
 
 async def get_entity(client, entity):
     entity_client = client
@@ -331,4 +333,3 @@ tg.MessageHandler = CustomMessageHandler
 if __name__ == "__main__":
     loop = asyncio.get_event_loop()
     loop.run_until_complete(main())
-   
