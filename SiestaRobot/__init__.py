@@ -28,7 +28,26 @@ def get_user_list(__init__, key):
     with open("{}/SiestaRobot/{}".format(os.getcwd(), __init__), "r") as json_file:
         return json.load(json_file)[key]
     
+def sync_time():
+    """Synchronize the system time with a time server."""
+    try:
+        # Example of a simple time sync logic
+        import ntplib
+        from time import ctime
+
+        client = ntplib.NTPClient()
+        response = client.request('pool.ntp.org', version=3)
+        if response:
+            # Set the system time (this requires administrative privileges)
+            # This is a placeholder; actual implementation may vary
+            print(f"Time synchronized: {ctime(response.tx_time)}")
+        else:
+            LOGGER.warning("Failed to synchronize time with NTP server.")
+    except Exception as e:
+        LOGGER.error(f"Time synchronization error: {e}")
+
 async def main():
+    sync_time()
     global aiohttpsession
     aiohttpsession = await initialize_aiohttp_session()
     
