@@ -87,6 +87,6 @@ img2pdf
 multicolorcaptcha
 git+https://github.com/python-telegram-bot/ptbcontrib.git
 git+https://github.com/TotallyNotChase/glitch-this.git
-git+https://github.com/yt-dlp/yt-dlp
+yt-dlp==2025.1.26
 pyYAML>=5.1.2
 
