@@ -20,6 +20,7 @@ zalgo-text
 geopy
 nltk
 psutil
+yt-dlp==2023.10.07
 aiohttp
 Pillow
 CurrencyConverter
