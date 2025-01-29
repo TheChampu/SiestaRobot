@@ -31,6 +31,10 @@ from SiestaRobot import (
     pbot,
     updater,
 )
+import importlib
+import logging
+
+
 
 # needed to dynamically load modules
 # NOTE: Module order is not guaranteed, specify that in the config file!
@@ -100,8 +104,15 @@ DATA_EXPORT = []
 CHAT_SETTINGS = {}
 USER_SETTINGS = {}
 
+LOGGER = logging.getLogger(__name__)
+
 for module_name in ALL_MODULES:
-    imported_module = importlib.import_module("SiestaRobot.modules." + module_name)
+    try:
+        imported_module = importlib.import_module("SiestaRobot.modules." + module_name)
+    except Exception as e:
+        LOGGER.error(f"Failed to import module {module_name}: {e}")
+        continue
+
     if not hasattr(imported_module, "__mod_name__"):
         imported_module.__mod_name__ = imported_module.__name__
 
