@@ -61,6 +61,13 @@ from telegram.ext.dispatcher import DispatcherHandlerStop, run_async
 from telegram.utils.helpers import escape_markdown
 from SiestaRobot.modules.language import gs
 
+# Sync time (only for VPS)
+if os.name != "nt":  # Skip for Windows
+    os.system("sudo timedatectl set-ntp on")
+
+# Wait for time sync
+time.sleep(5)
+
 
 def get_readable_time(seconds: int) -> str:
     count = 0
