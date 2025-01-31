@@ -79,11 +79,14 @@ async def synchronize_time():
     except Exception as e:
         logging.error(f"Failed to synchronize time: {e}")
 
-async def main_async():
-    await synchronize_time()
+async def start_bots():
     await telethn.start(bot_token=TOKEN)
     await pbot.start()
     main()
+
+async def main_async():
+    await synchronize_time()
+    await start_bots()
 
 
 def get_readable_time(seconds: int) -> str:
@@ -928,5 +931,5 @@ def main():
 if __name__ == "__main__":
     LOGGER.info("Successfully loaded modules: " + str(ALL_MODULES))
     loop = asyncio.get_event_loop()
-    loop.create_task(main_async())
+    loop.run_until_complete(main_async())
     loop.run_forever()
