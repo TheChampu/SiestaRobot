@@ -2,6 +2,7 @@ import html
 import os
 import json
 import importlib
+import asyncio
 import time
 from time import ctime, sleep
 import re
@@ -70,7 +71,7 @@ if os.name != "nt":  # Skip for Windows
 time.sleep(5)
 
 # Synchronize time using ntplib
-def synchronize_time():
+async def synchronize_time():
     try:
         client = ntplib.NTPClient()
         response = client.request('pool.ntp.org')
@@ -79,7 +80,7 @@ def synchronize_time():
         logging.error(f"Failed to synchronize time: {e}")
 
 # Call the synchronize_time function
-synchronize_time()
+asyncio.run(synchronize_time())
 
 def get_readable_time(seconds: int) -> str:
     count = 0
