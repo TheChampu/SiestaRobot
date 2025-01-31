@@ -5,4 +5,4 @@ sudo ntpdate ntp.ubuntu.com
 sleep 5  # Wait for time sync
 echo "Time synchronized: $(date)"
 # Start the application
-python __main__.py
+python SiestaRobot/__main__.py
