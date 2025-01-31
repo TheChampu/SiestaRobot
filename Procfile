@@ -1,1 +1,1 @@
-worker: python3 -m SiestaRobot
+worker: bash ./start.sh
