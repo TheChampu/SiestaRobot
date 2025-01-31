@@ -841,7 +841,12 @@ def migrate_chats(update: Update, context: CallbackContext):
     raise DispatcherHandlerStop
 
 
+# Ensure the event loop is properly created and run
 def main():
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+    loop.run_until_complete(synchronize_time())
+    loop.close()
 
     if SUPPORT_CHAT is not None and isinstance(SUPPORT_CHAT, str):
         try:
