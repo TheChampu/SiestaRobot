@@ -3,10 +3,11 @@ import os
 import json
 import importlib
 import time
+from time import ctime, sleep
 import re
 import sys
 import traceback
-
+import ntplib
 from sqlalchemy.sql.expression import text, update
 import SiestaRobot.modules.sql.users_sql as sql
 from sys import argv
@@ -68,6 +69,17 @@ if os.name != "nt":  # Skip for Windows
 # Wait for time sync
 time.sleep(5)
 
+# Synchronize time using ntplib
+def synchronize_time():
+    try:
+        client = ntplib.NTPClient()
+        response = client.request('pool.ntp.org')
+        logging.info(f"Time synchronized: {ctime(response.tx_time)}")
+    except Exception as e:
+        logging.error(f"Failed to synchronize time: {e}")
+
+# Call the synchronize_time function
+synchronize_time()
 
 def get_readable_time(seconds: int) -> str:
     count = 0

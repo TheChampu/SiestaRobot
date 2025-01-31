@@ -20,6 +20,7 @@ spongemock
 zalgo-text
 geopy
 nltk
+ntplib
 psutil
 aiohttp
 Pillow
