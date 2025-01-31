@@ -81,8 +81,8 @@ async def synchronize_time():
 
 async def main_async():
     await synchronize_time()
-    telethn.start(bot_token=TOKEN)
-    pbot.start()
+    await telethn.start(bot_token=TOKEN)
+    await pbot.start()
     main()
 
 
