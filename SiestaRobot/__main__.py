@@ -79,8 +79,9 @@ async def synchronize_time():
     except Exception as e:
         logging.error(f"Failed to synchronize time: {e}")
 
-# Call the synchronize_time function
-asyncio.run(synchronize_time())
+# Ensure an event loop is created and set as the current event loop
+if __name__ == "__main__":
+    asyncio.run(synchronize_time())
 
 def get_readable_time(seconds: int) -> str:
     count = 0
