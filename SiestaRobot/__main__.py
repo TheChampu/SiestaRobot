@@ -89,6 +89,7 @@ async def main_async():
     await start_bots()
 
 
+
 def get_readable_time(seconds: int) -> str:
     count = 0
     ping_time = ""
@@ -930,6 +931,4 @@ def main():
     
 if __name__ == "__main__":
     LOGGER.info("Successfully loaded modules: " + str(ALL_MODULES))
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(main_async())
-    loop.run_forever()
+    asyncio.run(main_async())
