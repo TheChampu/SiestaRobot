@@ -6,6 +6,4 @@ date -u -s "$current_time"
 sleep 5  # Wait for time sync
 echo "Time synchronized: $(date)"
 # Start the application
-python /app/path/to/your/main_script.py
-# Start the application
 python SiestaRobot/__main__.py
