@@ -79,9 +79,12 @@ async def synchronize_time():
     except Exception as e:
         logging.error(f"Failed to synchronize time: {e}")
 
-# Ensure an event loop is created and set as the current event loop
-if __name__ == "__main__":
-    asyncio.run(synchronize_time())
+async def main_async():
+    await synchronize_time()
+    telethn.start(bot_token=TOKEN)
+    pbot.start()
+    main()
+
 
 def get_readable_time(seconds: int) -> str:
     count = 0
@@ -921,10 +924,7 @@ def main():
         telethn.run_until_disconnected()
 
     updater.idle()
-
-
+    
 if __name__ == "__main__":
     LOGGER.info("Successfully loaded modules: " + str(ALL_MODULES))
-    telethn.start(bot_token=TOKEN)
-    pbot.start()
-    main()
+    asyncio.run(main_async())
