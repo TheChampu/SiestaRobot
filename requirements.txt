@@ -13,7 +13,7 @@ faker
 hachoir
 pykeyboard
 pynewtonmath
-yt-dlp==2025.1.26
+yt-dlp
 aiofiles
 ffmpeg-python
 spongemock
