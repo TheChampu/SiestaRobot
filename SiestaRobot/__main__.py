@@ -927,4 +927,6 @@ def main():
     
 if __name__ == "__main__":
     LOGGER.info("Successfully loaded modules: " + str(ALL_MODULES))
-    asyncio.run(main_async())
+    loop = asyncio.get_event_loop()
+    loop.create_task(main_async())
+    loop.run_forever()
