@@ -56,6 +56,16 @@ from telegram.ext import (
 from telegram.ext.dispatcher import DispatcherHandlerStop, run_async
 from telegram.utils.helpers import escape_markdown
 from SiestaRobot.modules.language import gs
+import asyncio
+from aiohttp import ClientSession
+
+
+
+async def create_aiohttp_session():
+    return ClientSession()
+
+loop = asyncio.get_event_loop()
+aiohttpsession = loop.run_until_complete(create_aiohttp_session())
 
 
 def get_readable_time(seconds: int) -> str:
