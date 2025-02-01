@@ -29,7 +29,6 @@ from telegram import (
 from telegram.error import BadRequest
 from telegram.ext.dispatcher import run_async
 from telegram.ext import CallbackContext, Filters, CommandHandler
-from SiestaRobot import StartTime
 from SiestaRobot.modules.helper_funcs.chat_status import sudo_plus
 from SiestaRobot.modules.helper_funcs.alternate import send_action, typing_action
 from SiestaRobot.modules.language import gs

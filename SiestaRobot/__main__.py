@@ -68,10 +68,10 @@ if os.name != "nt":  # Skip for Windows
     os.system("sudo timedatectl set-ntp on")
 
 # Wait for time sync
-time.sleep(5)
+sleep(5)
 
 # Synchronize time using ntplib
-async def synchronize_time():
+def synchronize_time():
     try:
         client = ntplib.NTPClient()
         response = client.request('pool.ntp.org')
@@ -79,13 +79,12 @@ async def synchronize_time():
     except Exception as e:
         logging.error(f"Failed to synchronize time: {e}")
 
+synchronize_time()
+
 async def start_bots():
     await telethn.start(bot_token=TOKEN)
-    logging.info("telethon to start ho gya")
     await pbot.start()
-    logging.info("pyro bhi start ho gYa")
     main()
-
 async def main_async():
     await synchronize_time()
     await start_bots()
@@ -931,6 +930,7 @@ def main():
 
     updater.idle()
     
+
 if __name__ == "__main__":
     LOGGER.info("Successfully loaded modules: " + str(ALL_MODULES))
-    asyncio.run(main_async())
+    asyncio.run(start_bots())
