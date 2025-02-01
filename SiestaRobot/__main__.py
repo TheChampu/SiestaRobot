@@ -85,6 +85,7 @@ async def start_bots():
     await telethn.start(bot_token=TOKEN)
     await pbot.start()
     main()
+    
 async def main_async():
     await synchronize_time()
     await start_bots()
@@ -933,4 +934,6 @@ def main():
 
 if __name__ == "__main__":
     LOGGER.info("Successfully loaded modules: " + str(ALL_MODULES))
-    asyncio.run(start_bots())
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(start_bots())
+    loop.run_forever()
