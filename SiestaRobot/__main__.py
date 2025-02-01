@@ -58,17 +58,17 @@ from telegram.utils.helpers import escape_markdown
 from SiestaRobot.modules.language import gs
 import asyncio
 from aiohttp import ClientSession
+from SiestaRobot import BOT_ID, OWNER_ID, ARQ_API_URL, ARQ_API_KEY
+from Python_ARQ import ARQ
 
-
-loop = asyncio.get_event_loop()
-aiohttpsession = loop.run_until_complete(ClientSession())
-
-async def create_aiohttp_session():
+async def init_aiohttp_session():
     global aiohttpsession
     aiohttpsession = ClientSession()
+    # Initialize ARQ client here as it depends on aiohttpsession
+    global arq
+    arq = ARQ(ARQ_API_URL, ARQ_API_KEY, aiohttpsession)
 
-async def main():
-    await create_aiohttp_session()
+
     
 
 def get_readable_time(seconds: int) -> str:
@@ -901,7 +901,8 @@ def main():
 
 if __name__ == "__main__":
     LOGGER.info("Successfully loaded modules: " + str(ALL_MODULES))
-    asyncio.run(main())
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(init_aiohttp_session())
     telethn.start(bot_token=TOKEN)
     pbot.start()
     main()
