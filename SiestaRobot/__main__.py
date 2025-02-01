@@ -916,7 +916,7 @@ if __name__ == "__main__":
     LOGGER.info("Successfully loaded modules: " + str(ALL_MODULES))
     loop = asyncio.get_event_loop()
     loop.run_until_complete(init_aiohttp_session())
-    asyncio.run(await botstart(pbot, telethn,TOKEN))
+    asyncio.run(botstart(pbot, telethn,TOKEN))
     #telethn.start(bot_token=TOKEN)
     #LOGGER.info("telethon started 🐜🐜🐜")
     #pbot.start()
