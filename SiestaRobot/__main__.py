@@ -898,14 +898,13 @@ def main():
 
     updater.idle()
 
-async def botstart(pyro_bot, tele_bot):
+async def botstart(pyro_bot, tele_bot, TOKEN):
     try:
-        await asyncio.gather(
-            pyro_bot.start(),
-            tele_bot.start(bot_token=TOKEN)
-        )
-        LOGGER.info("Pyrogram bot started successfully!") 
+        xx = await tele_bot.start(bot_token=TOKEN)
         LOGGER.info("Telethon bot started successfully!")
+        await xx.send_file(-1001897579809, "https://envs.sh/mEb.jpg", "Telethon Start Babe 😘")
+        await pyro_bot.start()
+        LOGGER.info("Pyrogram bot started successfully!") 
 
         await asyncio.gather(
             pyro_bot.idle(),
