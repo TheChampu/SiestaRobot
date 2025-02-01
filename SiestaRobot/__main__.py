@@ -60,11 +60,14 @@ import asyncio
 from aiohttp import ClientSession
 
 
+aiohttpsession = None
+
 async def create_aiohttp_session():
-    return ClientSession()
+    global aiohttpsession
+    aiohttpsession = ClientSession()
 
 async def main():
-    aiohttpsession = await create_aiohttp_session()
+    await create_aiohttp_session()
     
 
 def get_readable_time(seconds: int) -> str:
@@ -897,7 +900,7 @@ def main():
 
 if __name__ == "__main__":
     LOGGER.info("Successfully loaded modules: " + str(ALL_MODULES))
+    asyncio.run(main())
     telethn.start(bot_token=TOKEN)
     pbot.start()
-    asyncio.run(main())
     main()
