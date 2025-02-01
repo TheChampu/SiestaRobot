@@ -60,7 +60,8 @@ import asyncio
 from aiohttp import ClientSession
 
 
-aiohttpsession = None
+loop = asyncio.get_event_loop()
+aiohttpsession = loop.run_until_complete(ClientSession())
 
 async def create_aiohttp_session():
     global aiohttpsession
