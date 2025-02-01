@@ -81,7 +81,9 @@ async def synchronize_time():
 
 async def start_bots():
     await telethn.start(bot_token=TOKEN)
+    print("telethon to start ho gya")
     await pbot.start()
+    print("pyro bhi start ho gYa")
     main()
 
 async def main_async():
