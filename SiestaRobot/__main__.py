@@ -870,7 +870,7 @@ def main():
                 "Bot isnt able to send message to support_chat, go and check!"
             )
         except BadRequest as e:
-            LOGGER.warning(e.message)
+            LOGGER.warning(f" 👉 {e.message}")
 
     test_handler = CommandHandler("test", test, run_async=True)
     start_handler = CommandHandler("start", start, run_async=True)
