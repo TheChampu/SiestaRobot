@@ -904,5 +904,7 @@ if __name__ == "__main__":
     loop = asyncio.get_event_loop()
     loop.run_until_complete(init_aiohttp_session())
     telethn.start(bot_token=TOKEN)
+    LOGGER.info("telethon started 🐜🐜🐜")
     pbot.start()
+    LOGGER.info("pyrogram started ⚡⚡⚡")
     main()
