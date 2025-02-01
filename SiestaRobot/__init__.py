@@ -3,6 +3,7 @@ import logging
 import os
 import sys
 import json
+import asyncio
 import time
 import spamwatch
 import telegram.ext as tg
@@ -17,21 +18,13 @@ from pyrogram.types import Message
 from pyrogram import Client, errors
 from pyrogram.errors.exceptions.bad_request_400 import PeerIdInvalid, ChannelInvalid
 from pyrogram.types import Chat, User
-
+from ptbcontrib.postgres_persistence import PostgresPersistence
 
 StartTime = time.time()
-
-# Removed the create_aiohttp_session function as it is no longer needed.
-# The ClientSession creation logic is now streamlined.
 
 def get_user_list(__init__, key):
     with open("{}/SiestaRobot/{}".format(os.getcwd(), __init__), "r") as json_file:
         return json.load(json_file)[key]
-    
-async def main():
-    global aiohttpsession
-    aiohttpsession = await initialize_aiohttp_session()
-    
 
 # enable logging
 FORMAT = "[SiestaRobot] %(message)s"
@@ -129,6 +122,7 @@ if ENV:
     CF_API_KEY = os.environ.get("CF_API_KEY", None)
     WELCOME_DELAY_KICK_SEC = os.environ.get("WELCOME_DELAY_KICL_SEC", None)
     BOT_ID = int(os.environ.get("BOT_ID", None))
+    AI_API_KEY = os.environ.get("AI_API_KEY", None)
     ARQ_API_URL = "https://thearq.tech"
     ARQ_API_KEY = ARQ_API
     ERROR_LOGS = os.environ.get("ERROR_LOGS")
@@ -178,14 +172,15 @@ else:
     WEBHOOK = Config.WEBHOOK
     URL = Config.URL
     PORT = Config.PORT
+    BOT_ID = Config.BOT_ID
     CERT_PATH = Config.CERT_PATH
     API_ID = Config.API_ID
     API_HASH = Config.API_HASH
     ERROR_LOGS = Config.ERROR_LOGS
     DB_URL = Config.SQLALCHEMY_DATABASE_URI
     MONGO_DB_URI = Config.MONGO_DB_URI
-    ARQ_API = Config.ARQ_API_KEY
-    ARQ_API_URL = Config.ARQ_API_URL
+    ARQ_API_KEY = Config.AR_API_KEY
+    ARQ_API_URL = Config.AR_API_URL
     DONATION_LINK = Config.DONATION_LINK
     LOAD = Config.LOAD
     TEMP_DOWNLOAD_DIRECTORY = Config.TEMP_DOWNLOAD_DIRECTORY
@@ -205,6 +200,7 @@ else:
     SUPPORT_CHAT = Config.SUPPORT_CHAT
     SPAMWATCH_SUPPORT_CHAT = Config.SPAMWATCH_SUPPORT_CHAT
     SPAMWATCH_API = Config.SPAMWATCH_API
+    AI_API_KEY = Config.AI_API_KEY
     SESSION_STRING = Config.SESSION_STRING
     INFOPIC = Config.INFOPIC
     BOT_USERNAME = Config.BOT_USERNAME
@@ -245,18 +241,7 @@ updater = tg.Updater(TOKEN, workers=WORKERS, use_context=True)
 telethn = TelegramClient(MemorySession(), API_ID, API_HASH)
 dispatcher = updater.dispatcher
 print("[INFO]: INITIALIZING AIOHTTP SESSION")
-
-async def initialize_aiohttp_session():
-    return ClientSession()
-
-try:
-    loop = asyncio.get_event_loop()
-except RuntimeError:
-    loop = asyncio.new_event_loop()
-    asyncio.set_event_loop(loop)
-
-aiohttpsession = loop.run_until_complete(initialize_aiohttp_session())
-
+aiohttpsession = ClientSession()
 # ARQ Client
 print("[INFO]: INITIALIZING ARQ CLIENT")
 arq = ARQ(ARQ_API_URL, ARQ_API_KEY, aiohttpsession)
@@ -277,6 +262,7 @@ pbot = Client(
 )
 apps = []
 apps.append(pbot)
+loop = asyncio.get_event_loop()
 
 async def get_entity(client, entity):
     entity_client = client
@@ -328,10 +314,3 @@ from SiestaRobot.modules.helper_funcs.handlers import (
 tg.RegexHandler = CustomRegexHandler
 tg.CommandHandler = CustomCommandHandler
 tg.MessageHandler = CustomMessageHandler
-
-
-if __name__ == "__main__":
-    try:
-        loop.run_until_complete(main())
-    except Exception as e:
-        LOGGER.error(f"Failed to run main: {e}")
