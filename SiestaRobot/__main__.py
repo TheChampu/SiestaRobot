@@ -898,13 +898,28 @@ def main():
 
     updater.idle()
 
+async def botstart(pyro_bot, tele_bot):
+    try:
+        await asyncio.gather(
+            pyro_bot.start(),
+            tele_bot.start(bot_token=TOKEN)
+        )
+        LOGGER.info("Pyrogram bot started successfully!") 
+        LOGGER.info("Telethon bot started successfully!")
 
+        await asyncio.gather(
+            pyro_bot.idle(),
+            tele_bot.run_until_disconnected()
+        )
+    except Exception as e:
+        LOGGER.error(f"Error starting bots: {e}")
 if __name__ == "__main__":
     LOGGER.info("Successfully loaded modules: " + str(ALL_MODULES))
     loop = asyncio.get_event_loop()
     loop.run_until_complete(init_aiohttp_session())
-    telethn.start(bot_token=TOKEN)
-    LOGGER.info("telethon started 🐜🐜🐜")
-    pbot.start()
-    LOGGER.info("pyrogram started ⚡⚡⚡")
+    asyncio.run(await botstart(pbot, telethn,TOKEN))
+    #telethn.start(bot_token=TOKEN)
+    #LOGGER.info("telethon started 🐜🐜🐜")
+    #pbot.start()
+    #LOGGER.info("pyrogram started ⚡⚡⚡")
     main()
