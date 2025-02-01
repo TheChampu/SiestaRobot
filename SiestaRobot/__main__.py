@@ -56,7 +56,16 @@ from telegram.ext import (
 from telegram.ext.dispatcher import DispatcherHandlerStop, run_async
 from telegram.utils.helpers import escape_markdown
 from SiestaRobot.modules.language import gs
+import asyncio
+from aiohttp import ClientSession
 
+
+async def create_aiohttp_session():
+    return ClientSession()
+
+async def main():
+    aiohttpsession = await create_aiohttp_session()
+    
 
 def get_readable_time(seconds: int) -> str:
     count = 0
@@ -890,4 +899,5 @@ if __name__ == "__main__":
     LOGGER.info("Successfully loaded modules: " + str(ALL_MODULES))
     telethn.start(bot_token=TOKEN)
     pbot.start()
+    asyncio.run(main())
     main()
