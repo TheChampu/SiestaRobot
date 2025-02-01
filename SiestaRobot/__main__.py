@@ -932,10 +932,6 @@ def main():
 
 if __name__ == "__main__":
     LOGGER.info("Successfully loaded modules: " + str(ALL_MODULES))
-    loop = asyncio.new_event_loop()
-    asyncio.set_event_loop(loop)
-    try:
-        loop.run_until_complete(main_async())
-    finally:
-        loop.run_forever()
-        loop.close()
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(main_async())
+    loop.run_forever()
